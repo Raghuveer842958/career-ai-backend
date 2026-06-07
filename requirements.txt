@@ -47,3 +47,5 @@ torch
 edge-tts
 
 pytest
+
+email_validator

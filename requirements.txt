@@ -21,7 +21,7 @@ numpy
 scikit-learn
 
 langchain-groq 
-langchain-chroma 
+# langchain-chroma 
 langchain-community 
 langchain_text_splitters
 pypdf
@@ -41,11 +41,13 @@ pydantic
 python-multipart
 
 
-openai-whisper
-torch
+# openai-whisper
+# torch
 
 edge-tts
 
 pytest
 
 email_validator
+
+faster-whisper

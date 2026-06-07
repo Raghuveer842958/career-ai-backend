@@ -1,11 +1,11 @@
-from app.database import interviews_collection
+import app.database as db
 from bson import ObjectId
 
 
 async def get_interview_history():
 
     interviews = await (
-        interviews_collection
+        db.interviews_collection
         .find()
         .sort("created_at", -1)
         .to_list(length=100)
@@ -31,7 +31,7 @@ async def get_interview_by_id(
 ):
 
     interview = await (
-        interviews_collection.find_one(
+        db.interviews_collection.find_one(
             {
                 "_id":
                 ObjectId(interview_id)

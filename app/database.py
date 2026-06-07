@@ -69,5 +69,7 @@ def connect_db():
     users_collection = db["users"]
     interviews_collection = db["interviews"]
 
-    print("jobs_collection:", jobs_collection)  # should NOT be None
+    print("jobs_collection:", jobs_collection)
+    print("interviews_collection:", interviews_collection)
+
     print("MongoDB Connected Successfully")

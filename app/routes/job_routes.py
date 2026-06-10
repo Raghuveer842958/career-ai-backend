@@ -7,7 +7,8 @@ from pydantic import BaseModel
 
 from app.models import Job
 from app.utils.helpers import serialize_job
-from app.database import jobs_collection
+# from app.database import jobs_collection
+import app.database as database
 
 router = APIRouter()
 
@@ -23,7 +24,7 @@ class JobInput(BaseModel):
 async def create_job(job: Job):
     try:
 
-        existing_job = await jobs_collection.find_one({
+        existing_job = await database.jobs_collection.find_one({
             'job_id': job.job_id
         })
 
@@ -35,13 +36,13 @@ async def create_job(job: Job):
                 detail="job already exist"
             )
 
-        result = await jobs_collection.insert_one(
+        result = await database.jobs_collection.insert_one(
             job.dict()
         )
 
         print("resulet is :", result)
 
-        created_job = await jobs_collection.find_one({
+        created_job = await database.jobs_collection.find_one({
             '_id': result.inserted_id
         })
 
@@ -71,14 +72,16 @@ async def create_many_jobs(job: List[JobInput]):
         # convert Pydantic models → dicts
         job_dicts = [j.model_dump() for j in job]
 
-        result = await jobs_collection.insert_many(job_dicts)
+        result = await database.jobs_collection.insert_many(job_dicts)
+
+        print("jobs_collection:", database.jobs_collection)
         
         print("result is :-", result)
 
         created_jobs = []
 
         for id in result.inserted_ids:
-            new_job = await jobs_collection.find_one({'_id': id})
+            new_job = await database.jobs_collection.find_one({'_id': id})
             if new_job:
                 new_job["_id"] = str(new_job["_id"])
                 created_jobs.append(new_job)
@@ -113,7 +116,7 @@ async def get_all_jobs():
 
         # all_jobs = jobs_collection.find()
 
-        all_jobs = jobs_collection.find().sort("_id", -1).limit(5)
+        all_jobs = database.jobs_collection.find().sort("_id", -1).limit(5)
         
         print("all jobs are :", all_jobs)
 
@@ -155,7 +158,7 @@ async def get_job_by_id(job_id: str):
             detail="Invalid job id"
         )
 
-    job = await jobs_collection.find_one({
+    job = await database.jobs_collection.find_one({
         '_id': ObjectId(job_id)
     })
 
@@ -185,7 +188,7 @@ async def update_job(job_id: str, updated_job: Job):
                 detail="Invalid job id"
             )
 
-        existing_job = await jobs_collection.find_one({
+        existing_job = await database.jobs_collection.find_one({
             '_id': ObjectId(job_id)
         })
 
@@ -196,7 +199,7 @@ async def update_job(job_id: str, updated_job: Job):
                 detail='Job not found'
             )
 
-        temp = await jobs_collection.update_one(
+        temp = await database.jobs_collection.update_one(
             {'_id': ObjectId(job_id)},
             {
                 "$set": updated_job.dict()
@@ -205,7 +208,7 @@ async def update_job(job_id: str, updated_job: Job):
 
         print("temp is :", temp)
 
-        new_updated_job = await jobs_collection.find_one({
+        new_updated_job = await database.jobs_collection.find_one({
             '_id': ObjectId(job_id)
         })
 
@@ -239,7 +242,7 @@ async def delete_job(job_id: str):
                 detail="Id not found"
             )
 
-        existing_job = await jobs_collection.find_one({
+        existing_job = await database.jobs_collection.find_one({
             '_id': ObjectId(job_id)
         })
 
@@ -250,7 +253,7 @@ async def delete_job(job_id: str):
                 detail="Job not found"
             )
 
-        deleted_job = await jobs_collection.delete_one({
+        deleted_job = await database.jobs_collection.delete_one({
             '_id': ObjectId(job_id)
         })
 

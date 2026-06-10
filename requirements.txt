@@ -21,7 +21,6 @@ numpy
 scikit-learn
 
 langchain-groq 
-# langchain-chroma 
 langchain-community 
 langchain_text_splitters
 pypdf
@@ -39,10 +38,6 @@ motor
 pymongo
 pydantic
 python-multipart
-
-
-# openai-whisper
-# torch
 
 edge-tts
 

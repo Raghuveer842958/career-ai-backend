@@ -54,7 +54,7 @@ async def transcribe(
     )
 
     temp_file = (
-        f"backend/app/voice/user_audio/{audio_file_name}"
+        f"app/voice/user_audio/{audio_file_name}"
     )
 
     with open(

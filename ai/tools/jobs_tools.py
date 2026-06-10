@@ -137,7 +137,7 @@ def find_jobs(position: str, location: Optional[str] = "India"):
 
         data = response.json()
 
-        jobs = data.get("data", [])[:3]
+        jobs = data.get("data", [])[:5]
 
         optimized_jobs = []
 

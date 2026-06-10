@@ -62,8 +62,8 @@ def connect_db():
 
     MONGO_URI = os.getenv("MONGO_URI")
 
-    client = AsyncIOMotorClient(MONGO_URI)
-    db = client["fastapi_db"]
+    client = AsyncIOMotorClient("mongodb://localhost:27017/mydatabase")
+    db = client["career_ai_db"]
 
     jobs_collection = db["jobs"]
     users_collection = db["users"]

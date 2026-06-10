@@ -2,7 +2,8 @@ import uuid
 
 from ai.memory.interview_memory import interview_sessions
 from ai.agent.interview_agent import InterviewAgent
-from app.database import interviews_collection
+# from app.database import interviews_collection
+import app.database as database
 from datetime import datetime
 from app.voice.tts_service import (
     text_to_speech
@@ -252,7 +253,7 @@ async def submit_answer(
         }
 
         result = (
-            await interviews_collection.insert_one(
+            await database.interviews_collection.insert_one(
                 interview_doc
             )
         )

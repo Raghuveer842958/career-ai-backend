@@ -99,7 +99,6 @@ async def create_many_jobs(job: List[JobInput]):
         )
     
 
-
 @router.get('/')
 async def get_all_jobs():
 
